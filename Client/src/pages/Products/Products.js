@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import "./Products.css";
-import Card from "./Card/Card";
+import Card from "../../components/Card/Card";
 
 export default function Products(props) {
   return (

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Basket.css";
 import { Link } from "react-router-dom";
 import { HiArrowRight } from "react-icons/hi";
-import BasketItem from "./BasketItem";
+import BasketItem from "../../components/BasketItem/BasketItem.jsx";
 import axios from 'axios'
 
 export default function Basket(props) {
