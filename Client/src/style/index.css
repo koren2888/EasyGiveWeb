@@ -1,0 +1,26 @@
+* {
+  font-family: 'Yekan', sans-serif;
+  user-select: none;
+  text-decoration: none;
+  list-style: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  background: #eee;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #8fc700;
+  border-radius: 50px;
+  width: 5px;
+}
