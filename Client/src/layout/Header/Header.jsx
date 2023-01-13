@@ -1,35 +1,50 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "./Header.css";
-import { AiOutlineShopping } from "react-icons/ai";
+import { FiHeart } from "react-icons/fi";
+import { MdOutlineAccountCircle, MdOutlineLibraryBooks } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 function Header(props) {
-
   // run only if state changes and Not Mount
   const didMount = useRef(false);
 
   useEffect(() => {
     if (didMount.current) {
-      setTimeout(() => {
-      }, 1000);
+      setTimeout(() => {}, 1000);
     } else {
       didMount.current = true;
     }
   }, [props.cartProducts]);
 
+  const LinkWithTooltip = ({ children, href, tooltip, className }) => (
+    <OverlayTrigger
+    overlay={<Tooltip id="tooltip_message">{tooltip}</Tooltip>}
+    placement="bottom"
+    delayShow={300}
+    delayHide={150}
+    >
+      <Link to={href} className={className}>{children}</Link>
+    </OverlayTrigger>
+  );
+
   return (
     <header className="header">
       <nav className="nav">
         <Link to={"/"} className="logo">
-          Household Product Shop
+          Easy Give
         </Link>
-        <div className="basket-icon">
-          <Link to={"/basket"} className="shoppe_icon_box">
-            <AiOutlineShopping className="shop_icon" />
-            {props.cartProducts.length > 0 && (
-              <span className="badge_shope">{props.cartProducts.length}</span>
-            )}
-          </Link>
+        <div className="menu">
+          <LinkWithTooltip tooltip="Favorites" href={"/basket"} className="menu_icon_box">
+              <FiHeart className="menu_icon" />
+              {5 > 0 && <span className="badge_shop">{5}</span>}
+          </LinkWithTooltip>
+          <LinkWithTooltip tooltip="My Items" href={"#"} className="menu_icon_box">
+            <MdOutlineLibraryBooks className="menu_icon" />
+          </LinkWithTooltip>
+          <LinkWithTooltip tooltip="Account" href={"#"} className="menu_icon_box">
+            <MdOutlineAccountCircle className="menu_icon" />
+          </LinkWithTooltip>          
         </div>
       </nav>
     </header>
