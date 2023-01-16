@@ -39,7 +39,7 @@ function Header(props) {
               <FiHeart className="menu_icon" />
               {5 > 0 && <span className="badge_shop">{5}</span>}
           </LinkWithTooltip>
-          <LinkWithTooltip tooltip="My Items" href={"#"} className="menu_icon_box">
+          <LinkWithTooltip tooltip="My Items" href={"/my-items"} className="menu_icon_box">
             <MdOutlineLibraryBooks className="menu_icon" />
           </LinkWithTooltip>
           <LinkWithTooltip tooltip="Account" href={"#"} className="menu_icon_box">

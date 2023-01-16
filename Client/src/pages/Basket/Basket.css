@@ -235,15 +235,3 @@
 .favorite_empty_img {
   width: 350px;
 }
-
-input {
-  font-size: 18px;
-  padding: 10px;
-  margin: 10px;
-  background: papayawhip;
-  border: none;
-}
-
-input::placeholder {
-  color: palevioletred;
-}
