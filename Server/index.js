@@ -12,27 +12,58 @@ app.use(cors({
 app.engine('html', require('ejs').renderFile);
 app.use(express.urlencoded( { extended: true }));
 app.use(bodyParser.urlencoded( { extended: true }));
-app.use(bodyParser.json())
-const Product = require('./models/Product');
-const Purchase = require('./models/purchase');
+app.use(bodyParser.json());
+
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
+
+var fs = require('fs');
+
+const Item = require('./models/Item');
+
 const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
-mongoose.connect('mongodb://localhost:27017/productShop', { useNewUrlParser: true })
+const MONGO_URI = "mongodb+srv://EasyGive:bAhYlj9PsD6yuWpK@cluster0.pundpvx.mongodb.net/productShop?retryWrites=true&w=majority";
+mongoose.connect(MONGO_URI, { useNewUrlParser: true })
     .then(() => {
         console.log("mongo connection open!!");
     }).catch(err => {
+        console.error(err);
         console.log("no connection start");
     })
    
-app.get('/products', async (req, res) => {
-    const products = await Product.find({});
-    res.send(products);
+app.get('/items', async (req, res) => {
+    const items = await Item.find({});
+    res.send(items);
 })
 
-app.post('/purchase', async (req, res) => {
-    const { products, buyerInfo } = req.body;
-    Purchase.create({...buyerInfo, products: products})
+app.post('/item', multipartMiddleware, async (req, res) => {
+    console.log(req.body, req.files);
+
+    const item = new Item(req.body);
+    const imageExt = req.files.file.name.split('.').pop();
+    const newImagePath = `./public/${item._id}.${imageExt}`;
+
+    console.log(`Saving new image to ${newImagePath}`);
+    await fs.readFile(req.files.file.path, async function (err, data) {
+        await fs.writeFile(newImagePath, data, function (err) {
+            if (err) {
+                console.log(err);
+                res.status(503).send("Something went wrong!");
+            }
+        });
+    });
+    await item.save(function (err) {
+        if (err) {
+            console.log(err);
+            fs.unlink(newImagePath);
+            res.status(503).send("Something went wrong!");
+        } else {
+            console.log("New item added!");
+            res.send("Ok");
+        }
+    });
 })
 
 app.listen(3001, () => {
