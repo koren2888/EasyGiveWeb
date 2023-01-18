@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./MyItems.css";
 import Card from "../../components/Card/Card";
 import { Button } from "react-bootstrap";
@@ -10,7 +10,7 @@ export default function MyItems(props) {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3001/products")
+    fetch("http://localhost:3001/items")
       .then((response) => response.json())
       .then((data) => setItems(data));
   }, []);

@@ -22,6 +22,16 @@ export default function AddItemModal(props) {
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
+        } else {
+            let formData = new FormData();
+            formData.append('file', selectedImage);
+            formData.append("itemType", form.itemType.value);
+            formData.append("condition", form.condition.value);
+            formData.append("ownerId", "1");
+            fetch("http://localhost:3001/item", {
+                method: 'POST',
+                body: formData
+            })
         }
         setValidated(true);
     };
@@ -41,16 +51,16 @@ export default function AddItemModal(props) {
                 <Modal.Body>
                     <Form.Group className="mb-3">
                         <Form.Label>Item Type</Form.Label>
-                        <Form.Control required/>
+                        <Form.Control required name="itemType"/>
                         <Form.Text>Example: Sofa / Chair / Desk / Book etc.</Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
                         <Form.Label>Condition</Form.Label>
                         <br />
-                        <Form.Check required inline label="Fine" name="group1" type="radio"/>
-                        <Form.Check required inline label="Good" name="group1" type="radio"/>
-                        <Form.Check required inline label="Excellent" name="group1" type="radio"/>
+                        <Form.Check required inline label="Fine" name="condition" type="radio"/>
+                        <Form.Check required inline label="Good" name="condition" type="radio"/>
+                        <Form.Check required inline label="Excellent" name="condition" type="radio"/>
                     </Form.Group>
                     
                     <Form.Group>
@@ -61,9 +71,8 @@ export default function AddItemModal(props) {
                             type="file"
                             accept="image/*"
                             onChange={(event) => {
-                                console.log(event.target.files[0]);
                                 setSelectedImage(event.target.files[0]);
-                                }}
+                            }}
                         />
                         {selectedImage && (
                             <Image className="uploaded-image" alt="not found" src={URL.createObjectURL(selectedImage)} />
