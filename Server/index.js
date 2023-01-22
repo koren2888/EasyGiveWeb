@@ -77,6 +77,12 @@ app.post('/item', multipartMiddleware, async (req, res) => {
     });
 })
 
+app.delete('/item/:_id', async (req, res) => {
+    console.log(`Deleting ${req.params._id}`);
+    await Item.deleteOne({ _id: req.params._id });
+    res.send("Deleted");
+})
+
 app.listen(3001, () => {
     console.log("listening on port 3001!");
 })
