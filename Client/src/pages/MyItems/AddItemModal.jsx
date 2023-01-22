@@ -58,9 +58,9 @@ export default function AddItemModal(props) {
                     <Form.Group className="mb-3">
                         <Form.Label>Condition</Form.Label>
                         <br />
-                        <Form.Check required inline label="Fine" name="condition" type="radio"/>
-                        <Form.Check required inline label="Good" name="condition" type="radio"/>
-                        <Form.Check required inline label="Excellent" name="condition" type="radio"/>
+                        <Form.Check required inline label="Fine" value="Fine" name="condition" type="radio"/>
+                        <Form.Check required inline label="Good" value="Good" name="condition" type="radio"/>
+                        <Form.Check required inline label="Excellent" value="Excellent" name="condition" type="radio"/>
                     </Form.Group>
                     
                     <Form.Group>

@@ -1,0 +1,39 @@
+.my-item {
+    margin-bottom: 15px;
+}
+
+.item-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 35vh;
+    max-width: 100%;
+    padding: 10px;
+}
+
+.my-item-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.my-item-footer {
+    display: flex;
+    justify-content: center;
+}
+
+.my-item-footer * {
+    margin: auto;
+}
+
+#item-dropdown-toggle::after {
+    display: none;
+}
+
+#item-dropdown-toggle {
+    padding: 2px;
+}
+
+.icon {
+    vertical-align: bottom;
+}

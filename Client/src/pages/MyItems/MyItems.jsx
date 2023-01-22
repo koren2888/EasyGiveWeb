@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./MyItems.css";
-import Card from "../../components/Card/Card";
 import { Button } from "react-bootstrap";
 import AddItemModal from "./AddItemModal";
+import MyItemCard from "../../components/MyItemCard/MyItemCard";
 
 export default function MyItems(props) {
   const [items, setItems] = useState([]);
@@ -17,24 +17,26 @@ export default function MyItems(props) {
 
   return (
     <div>
-      <div className="page-header">
-        <h1>My Items</h1>
-        <Button variant="info" onClick={() => setShowModal(true)}>Add Item</Button>
-      </div>
-      {items.length > 0 ? (
-          items.map((item) => <Card key={item.id} {...item} addToCart={() => props.addToCart(item)} />)
-      ) : (
-          <div className="not_products">
-          <img
-              className="products_empty_img"
-              src="images/bare-tree.png"
-              alt=""
-          />
-          </div>
-      )}
-      <AddItemModal
-        show={showModal}
-        handleClose={() => setShowModal(false)}
+        <div className="page-header">
+            <h1>My Items</h1>
+            <Button variant="info" onClick={() => setShowModal(true)}>Add Item</Button>
+        </div>
+        {items.length > 0 ? (
+            <div className="items-holder">
+             {items.map((item) => <MyItemCard key={item.id} {...item} addToCart={() => props.addToCart(item)} />)}
+            </div>
+        ) : (
+            <div className="no-items">
+            <img
+                className="no-items-img"
+                src="images/bare-tree.png"
+                alt=""
+            />
+            </div>
+        )}
+        <AddItemModal
+            show={showModal}
+            handleClose={() => setShowModal(false)}
         />
     </div>
   );
