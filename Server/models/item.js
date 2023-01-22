@@ -13,6 +13,10 @@ const itemSchema = new mongoose.Schema({
     ownerId: {
         type: String,
         require: true
+    },
+    imagePath: {
+        type: String,
+        require: true
     }
 })
 

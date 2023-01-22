@@ -38,12 +38,23 @@ app.get('/items', async (req, res) => {
     res.send(items);
 })
 
+app.get('/item/image/:imagePath', async (req, res) => {
+    const filePath = `${__dirname}/public/${req.params.imagePath}`;
+    if (fs.existsSync(filePath)) {
+        res.sendFile(filePath);
+    } else {
+        res.status(404).send("Image not found!");
+    }
+})
+
 app.post('/item', multipartMiddleware, async (req, res) => {
     console.log(req.body, req.files);
 
     const item = new Item(req.body);
     const imageExt = req.files.file.name.split('.').pop();
-    const newImagePath = `./public/${item._id}.${imageExt}`;
+    const newImageName = `${item._id}.${imageExt}`;
+    item.imagePath = newImageName;
+    const newImagePath = `./public/${newImageName}`;
 
     console.log(`Saving new image to ${newImagePath}`);
     await fs.readFile(req.files.file.path, async function (err, data) {
