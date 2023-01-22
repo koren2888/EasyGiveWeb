@@ -17,15 +17,16 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #8fc700;
+  background-color: darkslategray;
   border-radius: 50px;
   width: 5px;
 }
 
-.container {
+.app-container {
   max-width: 80% !important;
+  max-height: 85vh !important;
 }

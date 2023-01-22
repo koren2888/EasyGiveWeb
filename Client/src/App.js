@@ -32,7 +32,7 @@ function App() {
   return (
     <>
       <Header cartProducts={cartProducts} />
-      <Container>
+      <Container className='app-container'>
         {router}
       </Container>
     </>
