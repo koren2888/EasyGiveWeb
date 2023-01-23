@@ -47,7 +47,7 @@ app.get('/item/image/:imagePath', async (req, res) => {
     }
 })
 
-app.post('/item', multipartMiddleware, async (req, res) => {
+app.put('/item', multipartMiddleware, async (req, res) => {
     console.log(req.body, req.files);
 
     const item = new Item(req.body);
@@ -77,9 +77,57 @@ app.post('/item', multipartMiddleware, async (req, res) => {
     });
 })
 
+app.post('/item/:_id', multipartMiddleware, async (req, res) => {
+    console.log(`Updaing ${req.params._id}`, req.body, req.files);
+
+    Item.findByIdAndUpdate(req.params._id, req.body, function (err, doc) {
+        if (err) {
+            console.log(err);
+            res.status(503).send("Something went wrong!");
+        } else if (doc) {
+            if (Object.keys(req.files).length != 0) {
+                const imageExt = req.files.file.name.split('.').pop();
+                const newImageName = `${doc._id}.${imageExt}`;
+                const newImagePath = `./public/${newImageName}`;
+                fs.readFile(req.files.file.path, async function (err, data) {
+                    fs.writeFile(newImagePath, data, function (err) {
+                        if (err) {
+                            console.log(err);
+                            res.status(503).send("Something went wrong!");
+                        } else {
+                            if (doc.imagePath !== newImageName) {
+                                const oldImagePath = `./public/${doc.imagePath}`;
+                                fs.unlink(oldImagePath, (err) => {
+                                    if (err) {
+                                        console.error(err);
+                                        res.status(503).send("Something went wrong!");
+                                    }
+                                    console.log(`${doc.imagePath} was deleted`);
+                                });
+                                doc.imagePath = newImageName;
+                                doc.save(function (err) {
+                                    if (err) {
+                                        console.log(err);
+                                        res.status(503).send("Something went wrong!");
+                                    }
+                                });
+                            }
+                            res.send("Updated");
+                        }
+                    });
+                });
+            } else {
+                res.send("Updated");
+            }
+        } else {
+            res.status(404).send("Item not found");
+        }
+    });
+})
+
 app.delete('/item/:_id', async (req, res) => {
     console.log(`Deleting ${req.params._id}`);
-    await Item.findOneAndDelete({ _id: req.params._id }, function (err, doc) {
+    Item.findOneAndDelete({ _id: req.params._id }, function (err, doc) {
         if (err) {
             console.error(err);
             res.status(503).send("Something went wrong!");
