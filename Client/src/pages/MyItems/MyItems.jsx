@@ -13,7 +13,6 @@ export default function MyItems(props) {
   const [currentItem, setCurrentItem] = useState(null);
 
   const updateItems = useCallback(async () => {
-    console.log("ahalan");
     fetch("http://localhost:3001/items")
       .then((response) => response.json())
       .then((data) => setItems(data));
@@ -24,11 +23,15 @@ export default function MyItems(props) {
   }, [updateItems]);
 
   const deleteItem = () => {
-    console.log("deleting")
     setOpenedModal(null);
     fetch(`http://localhost:3001/item/${currentItem._id}`, {
         method: "delete"
     }).then((response) => updateItems())
+  }
+
+  const openModal = (modalName, item) => {
+    setCurrentItem(item);
+    setOpenedModal(modalName);
   }
 
   return (
@@ -42,7 +45,7 @@ export default function MyItems(props) {
              {items.map((item) => <MyItemCard
                                         key={item._id}
                                         {...item}
-                                        deleteItem={() => {setCurrentItem(item);setOpenedModal(DeleteItemModal.name)}}
+                                        deleteItem={() => {openModal(DeleteItemModal.name, item)}}
                                     />)}
             </div>
         ) : (

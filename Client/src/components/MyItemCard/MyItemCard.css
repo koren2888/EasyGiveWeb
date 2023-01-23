@@ -1,6 +1,6 @@
 .my-item {
     margin-bottom: 15px;
-    height: 90%;
+    height: 40vh;
 }
 
 .item-image {
@@ -8,8 +8,9 @@
     object-fit: cover;
     margin-left: auto;
     margin-right: auto;
-    height: 80%;
     max-width: 100%;
+    height: 80%;
+    width: auto;
     padding: 10px;
 }
 

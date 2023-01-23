@@ -13,7 +13,7 @@ export default function AddItemModal(props) {
         setValidated(false);
     }
     
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         const form = event.currentTarget;
         console.log(form.checkValidity())
         if (form.checkValidity() === false) {
@@ -25,7 +25,7 @@ export default function AddItemModal(props) {
             formData.append("itemType", form.itemType.value);
             formData.append("condition", form.condition.value);
             formData.append("ownerId", "1");
-            fetch("http://localhost:3001/item", {
+            await fetch("http://localhost:3001/item", {
                 method: 'POST',
                 body: formData
             })
