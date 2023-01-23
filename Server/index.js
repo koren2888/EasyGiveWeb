@@ -79,8 +79,24 @@ app.post('/item', multipartMiddleware, async (req, res) => {
 
 app.delete('/item/:_id', async (req, res) => {
     console.log(`Deleting ${req.params._id}`);
-    await Item.deleteOne({ _id: req.params._id });
-    res.send("Deleted");
+    await Item.findOneAndDelete({ _id: req.params._id }, function (err, doc) {
+        if (err) {
+            console.error(err);
+            res.status(503).send("Something went wrong!");
+        }
+        else if (doc) {
+            console.log("Deleted Item: ", doc);
+            const deletedImagePath = `./public/${doc.imagePath}`;
+            fs.unlink(deletedImagePath, (err) => {
+                if (err) {
+                    console.error(err);
+                    res.status(503).send("Something went wrong!");
+                }
+                console.log(`${doc.imagePath} was deleted`);
+                res.send("Deleted");
+              });
+        }
+    });
 })
 
 app.listen(3001, () => {
