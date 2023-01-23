@@ -11,6 +11,7 @@ export default function MyItemCard(props) {
         "Good": "info",
         "Excellent": "success"
     }
+
     return (
         <Card className='my-item'>
             <Card.Img className='item-image' variant="top" src={`http://localhost:3001/item/image/${props.imagePath}`} />
@@ -25,9 +26,15 @@ export default function MyItemCard(props) {
                             <BsThreeDotsVertical />
                         </Dropdown.Toggle>
                         <Dropdown.Menu align="end">
-                            <Dropdown.Item><AiOutlineEdit className='icon me-2'/> Edit</Dropdown.Item>
+                            <Dropdown.Item>
+                                <AiOutlineEdit className='icon me-2'/>
+                                Edit
+                            </Dropdown.Item>
                             <Dropdown.Divider />
-                            <Dropdown.Item><AiOutlineDelete className='icon me-2' /> Delete</Dropdown.Item>
+                            <Dropdown.Item onClick={props.deleteItem}>
+                                <AiOutlineDelete className='icon me-2' />
+                                Delete
+                            </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Card.Title>
