@@ -3,6 +3,7 @@ import "./MyItems.css";
 import { Button } from "react-bootstrap";
 import AddItemModal from "../../components/Modals/AddItemModal";
 import DeleteItemModal from "../../components/Modals/DeleteItemModal";
+import EditItemModal from "../../components/Modals/EditItemModal";
 import MyItemCard from "../../components/MyItemCard/MyItemCard";
 import { useEffect } from "react";
 
@@ -25,7 +26,14 @@ export default function MyItems(props) {
   const deleteItem = () => {
     setOpenedModal(null);
     fetch(`http://localhost:3001/item/${currentItem._id}`, {
-        method: "delete"
+        method: "DELETE"
+    }).then((response) => updateItems())
+  }
+
+  const editItem = () => {
+    setOpenedModal(null);
+    fetch(`http://localhost:3001/item`, {
+        method: "POST"
     }).then((response) => updateItems())
   }
 
@@ -46,6 +54,7 @@ export default function MyItems(props) {
                                         key={item._id}
                                         {...item}
                                         deleteItem={() => {openModal(DeleteItemModal.name, item)}}
+                                        editItem={() => {openModal(EditItemModal.name, item)}}
                                     />)}
             </div>
         ) : (
@@ -61,14 +70,20 @@ export default function MyItems(props) {
             show={openedModal === AddItemModal.name}
             handleClose={() => setOpenedModal(null)}
         />
-        {currentItem && (
+        {currentItem && (<>
             <DeleteItemModal
                 show={openedModal === DeleteItemModal.name}
                 handleClose={() => setOpenedModal(null)}
                 item={currentItem}
                 deleteItem={deleteItem}
             />
-        )}
+            <EditItemModal
+                show={openedModal === EditItemModal.name}
+                handleClose={() => setOpenedModal(null)}
+                item={currentItem}
+                editItem={editItem}
+            />
+        </>)}
     </div>
   );
 }

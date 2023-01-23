@@ -26,7 +26,7 @@ export default function MyItemCard(props) {
                             <BsThreeDotsVertical />
                         </Dropdown.Toggle>
                         <Dropdown.Menu align="end">
-                            <Dropdown.Item>
+                            <Dropdown.Item onClick={props.editItem}>
                                 <AiOutlineEdit className='icon me-2'/>
                                 Edit
                             </Dropdown.Item>

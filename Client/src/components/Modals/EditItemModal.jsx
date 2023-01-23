@@ -4,9 +4,11 @@ import { Modal, Button, Image, Form } from 'react-bootstrap';
 
 import "./AddItemModal.css"
 
-export default function AddItemModal(props) {
+export default function EditItemModal(props) {
     const [validated, setValidated] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+
+    const conditions = ["Fine", "Good", "Excellent"];
     
     const onModalStart = () => {
         setSelectedImage(null);
@@ -21,17 +23,25 @@ export default function AddItemModal(props) {
             event.stopPropagation();
         } else {
             let formData = new FormData();
-            formData.append('file', selectedImage);
+            if (selectedImage) {
+                formData.append('file', selectedImage);
+            }
             formData.append("itemType", form.itemType.value);
             formData.append("condition", form.condition.value);
-            formData.append("ownerId", "1");
-            await fetch("http://localhost:3001/item", {
-                method: 'PUT',
+            await fetch(`http://localhost:3001/item/${props.item._id}`, {
+                method: 'POST',
                 body: formData
             })
         }
         setValidated(true);
     };
+
+    const getImage = () => {
+        if (selectedImage) {
+            return URL.createObjectURL(selectedImage);
+        }
+        return `http://localhost:3001/item/image/${props.item.imagePath}`;
+    }
 
     return (
         <Modal
@@ -42,28 +52,33 @@ export default function AddItemModal(props) {
                 
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Add Item</Modal.Title>
+                    <Modal.Title>Edit Item</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
                     <Form.Group className="mb-3">
                         <Form.Label>Item Type</Form.Label>
-                        <Form.Control required name="itemType"/>
+                        <Form.Control required name="itemType" defaultValue={props.item.itemType}/>
                         <Form.Text>Example: Sofa / Chair / Desk / Book etc.</Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
                         <Form.Label>Condition</Form.Label>
                         <br />
-                        <Form.Check required inline label="Fine" value="Fine" name="condition" type="radio"/>
-                        <Form.Check required inline label="Good" value="Good" name="condition" type="radio"/>
-                        <Form.Check required inline label="Excellent" value="Excellent" name="condition" type="radio"/>
+                        {conditions.map((value) =>
+                            <Form.Check
+                                key={value}
+                                required inline
+                                label={value} value={value}
+                                name="condition" type="radio"
+                                defaultChecked={props.item.condition === value}
+                            />
+                        )}
                     </Form.Group>
                     
                     <Form.Group>
                         <Form.Label>Upload Image</Form.Label>
                         <Form.Control
-                            required
                             className="mb-3"
                             type="file"
                             accept="image/*"
@@ -71,9 +86,7 @@ export default function AddItemModal(props) {
                                 setSelectedImage(event.target.files[0]);
                             }}
                         />
-                        {selectedImage && (
-                            <Image className="uploaded-image" alt="not found" src={URL.createObjectURL(selectedImage)} />
-                        )}
+                        <Image className="uploaded-image" alt="not found" src={getImage()} />
                     </Form.Group>
                 </Modal.Body>
 
@@ -82,7 +95,7 @@ export default function AddItemModal(props) {
                         Cancel
                     </Button>
                     <Button variant="primary" type="submit">
-                        Add Item
+                        Update Item
                     </Button>
                 </Modal.Footer>
             </Form>
