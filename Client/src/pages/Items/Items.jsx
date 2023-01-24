@@ -1,16 +1,18 @@
 import React, { useState, useCallback, useEffect } from "react";
 
+import FilterHeader from "../../components/FilterHeader/FilterHeader";
 import ItemCard from "../../components/ItemCard/ItemCard";
 import styles from "./Items.module.css";
 
 export default function MyItems(props) {
   const [items, setItems] = useState([]);
+  const [filters, setFilters] = useState({});
 
   const updateItems = useCallback(async () => {
-    fetch("http://localhost:3001/items")
+    fetch("http://localhost:3001/items?" + new URLSearchParams(filters))
       .then((response) => response.json())
       .then((data) => setItems(data));
-  }, [setItems]);
+  }, [setItems, filters]);
 
   useEffect(() => {
     updateItems();
@@ -19,7 +21,7 @@ export default function MyItems(props) {
   return (
     <div>
         <div className={styles.page_header}>
-            {/* <h3>Filter</h3> */}
+            <FilterHeader setFilters={setFilters} />
         </div>
         {items.length > 0 ? (
             <div className={styles.items_holder}>
