@@ -1,0 +1,33 @@
+.page_header {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 25px;
+}
+
+.items_holder {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 2%;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.no_items {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.no_items_img {
+  width: 50%;
+  opacity: 0.6;
+}

@@ -1,13 +1,13 @@
 import { Navigate, useRoutes } from 'react-router-dom';
 import Header from './layout/Header/Header';
-import Products from './pages/Products/Products';
+import Items from './pages/Items/Items';
 import MyItems from './pages/MyItems/MyItems';
 import { Container } from 'react-bootstrap';
 
 function App() {
 
   let router = useRoutes([
-    { path: '/', element: <Products products={[]} addToCart={() => {}} /> },
+    { path: '/', element: <Items /> },
     { path: '/my-items', element: <MyItems /> },
     { path: '*', element: <Navigate to={'/'} /> },
   ])
