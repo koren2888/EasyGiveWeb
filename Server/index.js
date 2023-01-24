@@ -34,7 +34,16 @@ mongoose.connect(MONGO_URI, { useNewUrlParser: true })
     })
    
 app.get('/items', async (req, res) => {
-    const items = await Item.find({});
+    let conditions = req.query.conditions ?? "";
+    let query = {
+        itemType: {
+            $regex: new RegExp(req.query.itemType, 'i')
+        },
+        condition: {
+            $regex: new RegExp(conditions.split(",").join("|"), 'i')
+        }
+    }
+    const items = await Item.find(query);
     res.send(items);
 })
 
