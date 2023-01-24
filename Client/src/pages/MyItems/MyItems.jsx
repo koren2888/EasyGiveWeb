@@ -1,11 +1,12 @@
-import React, { useState, useCallback } from "react";
-import "./MyItems.css";
+import React, { useState, useEffect, useCallback } from "react";
 import { Button } from "react-bootstrap";
+
 import AddItemModal from "../../components/Modals/AddItemModal";
 import DeleteItemModal from "../../components/Modals/DeleteItemModal";
 import EditItemModal from "../../components/Modals/EditItemModal";
 import MyItemCard from "../../components/MyItemCard/MyItemCard";
-import { useEffect } from "react";
+
+import styles from "./MyItems.module.css";
 
 export default function MyItems(props) {
   const [items, setItems] = useState([]);
@@ -14,7 +15,7 @@ export default function MyItems(props) {
   const [currentItem, setCurrentItem] = useState(null);
 
   const updateItems = useCallback(async () => {
-    fetch("http://localhost:3001/items")
+    fetch("/items")
       .then((response) => response.json())
       .then((data) => setItems(data));
   }, [setItems]);
@@ -25,14 +26,14 @@ export default function MyItems(props) {
 
   const deleteItem = () => {
     setOpenedModal(null);
-    fetch(`http://localhost:3001/item/${currentItem._id}`, {
+    fetch(`/item/${currentItem._id}`, {
         method: "DELETE"
     }).then((response) => updateItems())
   }
 
   const editItem = () => {
     setOpenedModal(null);
-    fetch(`http://localhost:3001/item`, {
+    fetch(`/item`, {
         method: "POST"
     }).then((response) => updateItems())
   }
@@ -44,12 +45,12 @@ export default function MyItems(props) {
 
   return (
     <div>
-        <div className="page-header">
+        <div className={styles.page_header}>
             <h1>My Items</h1>
             <Button variant="info" onClick={() => setOpenedModal(AddItemModal.name)}>Add Item</Button>
         </div>
         {items.length > 0 ? (
-            <div className="items-holder">
+            <div className={styles.items_holder}>
              {items.map((item) => <MyItemCard
                                         key={item._id}
                                         {...item}
@@ -58,9 +59,9 @@ export default function MyItems(props) {
                                     />)}
             </div>
         ) : (
-            <div className="no-items">
+            <div className={styles.no_items}>
             <img
-                className="no-items-img"
+                className={styles.no_items_img}
                 src="images/bare-tree.png"
                 alt=""
             />

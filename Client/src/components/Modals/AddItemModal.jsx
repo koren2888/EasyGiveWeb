@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Modal, Button, Image, Form } from 'react-bootstrap';
 
-import "./AddItemModal.css"
+import styles from "./AddItemModal.module.css";
 
 export default function AddItemModal(props) {
     const [validated, setValidated] = useState(false);
@@ -25,7 +25,7 @@ export default function AddItemModal(props) {
             formData.append("itemType", form.itemType.value);
             formData.append("condition", form.condition.value);
             formData.append("ownerId", "1");
-            await fetch("http://localhost:3001/item", {
+            await fetch("/item", {
                 method: 'PUT',
                 body: formData
             })
@@ -72,7 +72,7 @@ export default function AddItemModal(props) {
                             }}
                         />
                         {selectedImage && (
-                            <Image className="uploaded-image" alt="not found" src={URL.createObjectURL(selectedImage)} />
+                            <Image className={styles.uploaded_image} alt="not found" src={URL.createObjectURL(selectedImage)} />
                         )}
                     </Form.Group>
                 </Modal.Body>

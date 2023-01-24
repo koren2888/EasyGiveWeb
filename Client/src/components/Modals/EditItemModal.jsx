@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Modal, Button, Image, Form } from 'react-bootstrap';
 
-import "./AddItemModal.css"
+import styles from "./AddItemModal.module.css";
 
 export default function EditItemModal(props) {
     const [validated, setValidated] = useState(false);
@@ -86,7 +86,7 @@ export default function EditItemModal(props) {
                                 setSelectedImage(event.target.files[0]);
                             }}
                         />
-                        <Image className="uploaded-image" alt="not found" src={getImage()} />
+                        <Image className={styles.uploaded_image} alt="not found" src={getImage()} />
                     </Form.Group>
                 </Modal.Body>
 
