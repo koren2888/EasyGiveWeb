@@ -156,7 +156,21 @@ app.delete('/item/:_id', async (req, res) => {
     });
 })
 
+app.get('/users/:userId/conditions', async (req, res) => {
+    const conditions_count = await Item.aggregate([{
+        $match: { ownerId: req.params.userId }
+    }, {
+        $group: {
+            _id: "$condition",
+            count: {
+                $sum: 1
+            }
+        }
+    }]);
+    console.log(conditions_count);
+    res.send(conditions_count);
+})
+
 app.listen(3001, () => {
     console.log("listening on port 3001!");
 })
-    
