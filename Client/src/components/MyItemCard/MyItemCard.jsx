@@ -6,12 +6,6 @@ import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai"
 import styles from "./MyItemCard.module.css";
 
 export default function MyItemCard(props) {
-    const conditionColor = {
-        "Fine": "secondary",
-        "Good": "info",
-        "Excellent": "success"
-    }
-
     return (
         <Card className={styles.item}>
             <Card.Img className={styles.item_image} variant="top" src={`/item/image/${props.imagePath}`} />
@@ -19,7 +13,7 @@ export default function MyItemCard(props) {
                 <Card.Title className={styles.item_header}>
                     <span>
                         {props.itemType}
-                        <Badge className="ms-2" bg={conditionColor[props.condition]}>
+                        <Badge className="ms-2" bg={props.conditionsColors[props.condition]}>
                             {props.condition}
                         </Badge>
                     </span>

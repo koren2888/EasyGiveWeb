@@ -9,7 +9,7 @@ export default function MyItems(props) {
   const [filters, setFilters] = useState({});
 
   const updateItems = useCallback(async () => {
-    fetch("http://localhost:3001/items?" + new URLSearchParams(filters))
+    fetch("/items?" + new URLSearchParams(filters))
       .then((response) => response.json())
       .then((data) => setItems(data));
   }, [setItems, filters]);

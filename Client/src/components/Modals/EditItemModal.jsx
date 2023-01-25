@@ -28,7 +28,7 @@ export default function EditItemModal(props) {
             }
             formData.append("itemType", form.itemType.value);
             formData.append("condition", form.condition.value);
-            await fetch(`http://localhost:3001/item/${props.item._id}`, {
+            await fetch(`/item/${props.item._id}`, {
                 method: 'POST',
                 body: formData
             })
@@ -40,7 +40,7 @@ export default function EditItemModal(props) {
         if (selectedImage) {
             return URL.createObjectURL(selectedImage);
         }
-        return `http://localhost:3001/item/image/${props.item.imagePath}`;
+        return `/item/image/${props.item.imagePath}`;
     }
 
     return (

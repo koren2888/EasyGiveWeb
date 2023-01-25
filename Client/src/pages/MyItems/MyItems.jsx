@@ -5,6 +5,7 @@ import AddItemModal from "../../components/Modals/AddItemModal";
 import DeleteItemModal from "../../components/Modals/DeleteItemModal";
 import EditItemModal from "../../components/Modals/EditItemModal";
 import MyItemCard from "../../components/MyItemCard/MyItemCard";
+import MyItemsInfo from "../../components/MyItemsInfo/MyItemsInfo";
 
 import styles from "./MyItems.module.css";
 
@@ -13,6 +14,12 @@ export default function MyItems(props) {
 
   const [openedModal, setOpenedModal] = useState(null);
   const [currentItem, setCurrentItem] = useState(null);
+  
+  const conditionsColors = {
+      "Fine": "secondary",
+      "Good": "info",
+      "Excellent": "success"
+  }
 
   const updateItems = useCallback(async () => {
     fetch("/items")
@@ -47,6 +54,7 @@ export default function MyItems(props) {
     <div>
         <div className={styles.page_header}>
             <h1>My Items</h1>
+            <MyItemsInfo conditionsColors={conditionsColors} items={items} userId="1" />
             <Button variant="info" onClick={() => setOpenedModal(AddItemModal.name)}>Add Item</Button>
         </div>
         {items.length > 0 ? (
@@ -54,6 +62,7 @@ export default function MyItems(props) {
              {items.map((item) => <MyItemCard
                                         key={item._id}
                                         {...item}
+                                        conditionsColors={conditionsColors}
                                         deleteItem={() => {openModal(DeleteItemModal.name, item)}}
                                         editItem={() => {openModal(EditItemModal.name, item)}}
                                     />)}
